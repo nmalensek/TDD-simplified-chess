@@ -1,6 +1,7 @@
 package a1.tests;
 
 import a1.ChessBoard;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,5 +17,9 @@ class ChessBoardTest {
     void tearDown() {
     }
 
+    @Test
+    void testInitialize() {
+
+    }
 
 }
