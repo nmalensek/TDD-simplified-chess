@@ -19,7 +19,13 @@ class ChessBoardTest {
 
     @Test
     void testInitialize() {
+        chessBoard.initialize();
+    }
+
+    @Test
+    void testGetPieceInInitialPosition() {
 
     }
+
 
 }
