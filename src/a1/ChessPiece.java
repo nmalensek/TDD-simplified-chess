@@ -55,8 +55,9 @@ public abstract class ChessPiece {
 
     public String getPosition() {
         String position = "";
-        position += convertIntToChar(this.column);
-        position += this.row;
+        //add one to return coordinate values
+        position += convertIntToChar(this.column) + 1;
+        position += this.row + 1;
         return position;
     }
 
@@ -81,7 +82,8 @@ public abstract class ChessPiece {
         }
 
         this.column = convertCharToInt(position.charAt(0));
-        this.row = Character.getNumericValue(position.charAt(1));
+        //subtract 1 to set index value
+        this.row = Character.getNumericValue(position.charAt(1)) - 1;
     }
 
     abstract public String toString();

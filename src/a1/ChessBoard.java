@@ -41,11 +41,18 @@ public class ChessBoard {
     }
 
     public void initialize() {
+        for (ChessPiece.Color color : ChessPiece.Color.values()) {
 
+        }
     }
 
     public ChessPiece getPiece(String position) throws IllegalPositionException {
-        return null;
+        if (!inputCoordinatesValid(position)) { throw new IllegalPositionException(); }
+
+        int row = Character.getNumericValue(position.charAt(1)) - 1;
+        int column = charIntMap.get(position.charAt(0));
+
+        return board[row][column];
     }
 
     public boolean placePiece(ChessPiece piece, String position) {
@@ -54,6 +61,29 @@ public class ChessBoard {
 
     public void move(String fromPosition, String toPosition) throws IllegalMoveException {
         //needs to call getPiece, then placePiece
+    }
+
+    private boolean inputCoordinatesValid(String coordinates) {
+        if (coordinates.length() != 2) { return false; }
+
+        //check column
+        if (convertCharToInt(coordinates.charAt(0)) == ILLEGAL_COLUMN) {
+            return false;
+        }
+
+        //check row
+        try {
+            Integer.parseInt(String.valueOf(coordinates.charAt(1)));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        if (Character.getNumericValue(coordinates.charAt(1)) < 1 ||
+                Character.getNumericValue(coordinates.charAt(1)) > 8) {
+            return false;
+        }
+
+        return true;
     }
 
     private char convertIntToChar(int number) {

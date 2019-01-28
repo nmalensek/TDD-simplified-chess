@@ -12,6 +12,7 @@ class ChessBoardTest {
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         chessBoard = new ChessBoard();
+        chessBoard.initialize();
     }
 
     @org.junit.jupiter.api.AfterEach
@@ -25,6 +26,43 @@ class ChessBoardTest {
 
     @Test
     void testGetPieceInInitialPosition() {
+
+    }
+
+    @Test
+    void initializeMiddleIsNull() {
+        ChessPiece piece = null;
+        int[] rowIndices = new int[] {
+                2,3,4,5
+        };
+        char[] columnIndices = new char[] {
+          'a','b','c','d','e','f','g','h'
+        };
+        int row;
+        char column;
+
+        for (int i = 0; i < rowIndices.length; i++) {
+            row = rowIndices[i] + 1;
+            for (int j = 0; j < columnIndices.length; j++) {
+                column = columnIndices[j];
+                try {
+                    piece = chessBoard.getPiece(String.valueOf(column) + row);
+                    if (piece != null) { break; }
+                } catch (IllegalPositionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        assertSame(null, piece);
+    }
+
+    @Test
+    void pawnsInitializedCorrectly() {
+
+    }
+
+    @Test
+    void backRowsInitializedCorrectly() {
 
     }
 
@@ -83,4 +121,6 @@ class ChessBoardTest {
         Assertions.assertTrue(piece instanceof Pawn);
         assertSame(piece.getColor(), ChessPiece.Color.WHITE);
     }
+
+
 }
