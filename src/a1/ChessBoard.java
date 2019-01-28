@@ -41,7 +41,42 @@ public class ChessBoard {
     }
 
     public void initialize() {
+        String firstRowCoordinate;
+        String secondRowCoordinate;
         for (ChessPiece.Color color : ChessPiece.Color.values()) {
+            firstRowCoordinate = color == ChessPiece.Color.WHITE ? "1" : "8";
+            secondRowCoordinate = color == ChessPiece.Color.WHITE ? "2" : "7";
+
+            Rook leftRook = new Rook(this, color);
+            placePiece(leftRook, intCharMap.get(0) + firstRowCoordinate);
+            updateBoard(leftRook, intCharMap.get(0) + firstRowCoordinate);
+            Knight leftKnight = new Knight(this, color);
+            placePiece(leftKnight, intCharMap.get(1) + firstRowCoordinate);
+            updateBoard(leftKnight, intCharMap.get(1) + firstRowCoordinate);
+            Bishop leftBishop = new Bishop(this, color);
+            placePiece(leftBishop, intCharMap.get(2) + firstRowCoordinate);
+            updateBoard(leftBishop, intCharMap.get(2) + firstRowCoordinate);
+            Queen queen = new Queen(this, color);
+            placePiece(queen, intCharMap.get(3) + firstRowCoordinate);
+            updateBoard(queen, intCharMap.get(3) + firstRowCoordinate);
+            King king = new King(this, color);
+            placePiece(king, intCharMap.get(4) + firstRowCoordinate);
+            updateBoard(king, intCharMap.get(4) + firstRowCoordinate);
+            Bishop rightBishop = new Bishop(this, color);
+            placePiece(rightBishop, intCharMap.get(5) + firstRowCoordinate);
+            updateBoard(rightBishop, intCharMap.get(5) + firstRowCoordinate);
+            Knight rightKnight = new Knight(this, color);
+            placePiece(rightKnight, intCharMap.get(6) + firstRowCoordinate);
+            updateBoard(rightKnight, intCharMap.get(6) + firstRowCoordinate);
+            Rook rightRook = new Rook(this, color);
+            placePiece(rightRook, intCharMap.get(7) + firstRowCoordinate);
+            updateBoard(rightRook, intCharMap.get(7) + firstRowCoordinate);
+
+            for (int i = 0; i < board[0].length; i++) {
+                Pawn pawn = new Pawn(this, color);
+                placePiece(pawn, intCharMap.get(i) + secondRowCoordinate);
+                updateBoard(pawn, intCharMap.get(i) + secondRowCoordinate);
+            }
 
         }
     }
@@ -56,11 +91,50 @@ public class ChessBoard {
     }
 
     public boolean placePiece(ChessPiece piece, String position) {
-        return false;
+        if (piece == null) { return false; }
+        ChessPiece pieceInSpace;
+
+        try {
+            pieceInSpace = getPiece(position);
+        } catch (IllegalPositionException e) {
+            return false;
+        }
+
+        if (pieceInSpace != null && pieceInSpace.color == piece.color) { return false; }
+
+        //capture piece if present
+        pieceInSpace = null;
+
+        try {
+            piece.setPosition(position);
+        } catch (IllegalPositionException e) {
+            return false;
+        }
+        return true;
     }
 
     public void move(String fromPosition, String toPosition) throws IllegalMoveException {
-        //needs to call getPiece, then placePiece
+        ChessPiece pieceToMove;
+        boolean successfulMove = false;
+        try {
+            pieceToMove = this.getPiece(fromPosition);
+        } catch (IllegalPositionException e) {
+            throw new IllegalMoveException();
+        }
+
+        if (pieceToMove == null || pieceToMove.legalMoves() == null) { throw new IllegalMoveException(); }
+
+        if (pieceToMove.legalMoves().contains(toPosition)) {
+            successfulMove = this.placePiece(pieceToMove, toPosition);
+        }
+
+        if (!successfulMove) { throw new IllegalMoveException(); }
+
+        updateBoard(pieceToMove, toPosition);
+    }
+
+    private void updateBoard(ChessPiece piece, String coordinates) {
+        board[Character.getNumericValue(coordinates.charAt(1)) - 1][charIntMap.get(coordinates.charAt(0))] = piece;
     }
 
     private boolean inputCoordinatesValid(String coordinates) {
