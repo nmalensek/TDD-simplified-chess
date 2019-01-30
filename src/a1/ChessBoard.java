@@ -9,32 +9,9 @@ public class ChessBoard {
 
     private int ILLEGAL_COLUMN = -1;
 
-    private static final Map<Integer, Character> intCharMap;
-    static {
-        intCharMap = Map.ofEntries(
-                entry(0, 'a'),
-                entry(1, 'b'),
-                entry(2,'c'),
-                entry(3,'d'),
-                entry(4,'e'),
-                entry(5, 'f'),
-                entry(6,'g'),
-                entry(7,'h')
-        );
-    }
-    private static final Map<Character, Integer> charIntMap;
-    static {
-        charIntMap = Map.ofEntries(
-                entry('a', 0),
-                entry('b', 1),
-                entry('c', 2),
-                entry('d', 3),
-                entry('e', 4),
-                entry('f', 5),
-                entry('g', 6),
-                entry('h', 7)
-        );
-    }
+    private static final char[] columnCharArray = {
+            'a','b','c','d','e','f','g','h'
+    };
 
     public ChessBoard() {
         board = new ChessPiece[8][8];
@@ -48,34 +25,34 @@ public class ChessBoard {
             secondRowCoordinate = color == ChessPiece.Color.WHITE ? "2" : "7";
 
             Rook leftRook = new Rook(this, color);
-            placePiece(leftRook, intCharMap.get(0) + firstRowCoordinate);
-            updateBoard(leftRook, intCharMap.get(0) + firstRowCoordinate);
+            placePiece(leftRook, 'a' + firstRowCoordinate);
+            updateBoard(leftRook, 'a' + firstRowCoordinate);
             Knight leftKnight = new Knight(this, color);
-            placePiece(leftKnight, intCharMap.get(1) + firstRowCoordinate);
-            updateBoard(leftKnight, intCharMap.get(1) + firstRowCoordinate);
+            placePiece(leftKnight, 'b' + firstRowCoordinate);
+            updateBoard(leftKnight, 'b' + firstRowCoordinate);
             Bishop leftBishop = new Bishop(this, color);
-            placePiece(leftBishop, intCharMap.get(2) + firstRowCoordinate);
-            updateBoard(leftBishop, intCharMap.get(2) + firstRowCoordinate);
+            placePiece(leftBishop, 'c' + firstRowCoordinate);
+            updateBoard(leftBishop, 'c' + firstRowCoordinate);
             Queen queen = new Queen(this, color);
-            placePiece(queen, intCharMap.get(3) + firstRowCoordinate);
-            updateBoard(queen, intCharMap.get(3) + firstRowCoordinate);
+            placePiece(queen, 'd' + firstRowCoordinate);
+            updateBoard(queen, 'd' + firstRowCoordinate);
             King king = new King(this, color);
-            placePiece(king, intCharMap.get(4) + firstRowCoordinate);
-            updateBoard(king, intCharMap.get(4) + firstRowCoordinate);
+            placePiece(king, 'e' + firstRowCoordinate);
+            updateBoard(king, 'e' + firstRowCoordinate);
             Bishop rightBishop = new Bishop(this, color);
-            placePiece(rightBishop, intCharMap.get(5) + firstRowCoordinate);
-            updateBoard(rightBishop, intCharMap.get(5) + firstRowCoordinate);
+            placePiece(rightBishop, 'f' + firstRowCoordinate);
+            updateBoard(rightBishop, 'f' + firstRowCoordinate);
             Knight rightKnight = new Knight(this, color);
-            placePiece(rightKnight, intCharMap.get(6) + firstRowCoordinate);
-            updateBoard(rightKnight, intCharMap.get(6) + firstRowCoordinate);
+            placePiece(rightKnight, 'g' + firstRowCoordinate);
+            updateBoard(rightKnight, 'g' + firstRowCoordinate);
             Rook rightRook = new Rook(this, color);
-            placePiece(rightRook, intCharMap.get(7) + firstRowCoordinate);
-            updateBoard(rightRook, intCharMap.get(7) + firstRowCoordinate);
+            placePiece(rightRook, 'h' + firstRowCoordinate);
+            updateBoard(rightRook, 'h' + firstRowCoordinate);
 
             for (int i = 0; i < board[0].length; i++) {
                 Pawn pawn = new Pawn(this, color);
-                placePiece(pawn, intCharMap.get(i) + secondRowCoordinate);
-                updateBoard(pawn, intCharMap.get(i) + secondRowCoordinate);
+                placePiece(pawn, columnCharArray[i] + secondRowCoordinate);
+                updateBoard(pawn, columnCharArray[i] + secondRowCoordinate);
             }
 
         }
@@ -85,7 +62,7 @@ public class ChessBoard {
         if (!inputCoordinatesValid(position)) { throw new IllegalPositionException(); }
 
         int row = Character.getNumericValue(position.charAt(1)) - 1;
-        int column = charIntMap.get(position.charAt(0));
+        int column = convertCharToInt(position.charAt(0));
 
         return board[row][column];
     }
@@ -134,7 +111,7 @@ public class ChessBoard {
     }
 
     private void updateBoard(ChessPiece piece, String coordinates) {
-        board[Character.getNumericValue(coordinates.charAt(1)) - 1][charIntMap.get(coordinates.charAt(0))] = piece;
+        board[Character.getNumericValue(coordinates.charAt(1)) - 1][convertCharToInt(coordinates.charAt(0))] = piece;
     }
 
     private boolean inputCoordinatesValid(String coordinates) {
@@ -146,12 +123,6 @@ public class ChessBoard {
         }
 
         //check row
-        try {
-            Integer.parseInt(String.valueOf(coordinates.charAt(1)));
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
         if (Character.getNumericValue(coordinates.charAt(1)) < 1 ||
                 Character.getNumericValue(coordinates.charAt(1)) > 8) {
             return false;
@@ -161,12 +132,12 @@ public class ChessBoard {
     }
 
     private char convertIntToChar(int number) {
-        return intCharMap.get(number);
+        return Character.toChars(number + 'a')[0];
     }
 
     private int convertCharToInt(char letter) {
-        if (!charIntMap.containsKey(letter)) { return ILLEGAL_COLUMN; }
-        return charIntMap.get(letter);
+        if (letter - 'a' > 7 || letter - 'a' < 0) { return ILLEGAL_COLUMN; }
+        return letter - 'a';
     }
 
     public String toString(){
