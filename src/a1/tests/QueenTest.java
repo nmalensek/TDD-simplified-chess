@@ -14,13 +14,11 @@ import org.junit.runner.RunWith;
 class QueenTest {
     private ChessBoard board;
     private Queen blackQueen;
-    private Queen whiteQueen;
 
     @BeforeEach
     void setUp() {
         board = new ChessBoard();
         blackQueen = new Queen(board, ChessPiece.Color.BLACK);
-        whiteQueen = new Queen(board, ChessPiece.Color.WHITE);
     }
 
     @AfterEach
@@ -28,12 +26,7 @@ class QueenTest {
     }
 
     @Test
-    void testToString() {
-
-    }
-
-    @Test
-    void legalMoves() {
+    void assertNoLegalMoves() {
         Assertions.assertTrue(blackQueen.legalMoves().isEmpty());
     }
 }

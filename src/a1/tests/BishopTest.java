@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
@@ -31,62 +33,34 @@ public class BishopTest {
     }
 
     @Test
-    void testToString() {
-    }
-
-    @Test
     void testLegalMoves() {
     }
 
-    @Test
-    void testArgIsTwoChars() {
-        String position = "abc";
+    @ParameterizedTest
+    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
+    void testIllegalPositions(String position) {
         Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
     }
 
     @Test
-    void testFirstCharIsLetter() {
-        String position = "11";
-        Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
-    }
-
-    @Test
-    void testFirstCharIsInRange() {
-        String position = "j1";
-        Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
-    }
-
-    @Test
-    void testSecondCharIsNumber() {
-        String position = "hh";
-        Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
-    }
-
-    @Test
-    void testSecondCharIsInRange() {
-        String position = "h9";
-        Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
-    }
-
-    @Test
-    void testGetPositionStringConversion() {
+    void assertSuccessfulSetPositionWithEmptyBoard() {
         String positionString = "h8";
         try {
             whiteBishop.setPosition(positionString);
         } catch (IllegalPositionException e) {
-            e.printStackTrace();
+            fail();
         }
         Assertions.assertEquals(positionString, whiteBishop.getPosition());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"g4, e4"})
+    void assertExceptionOnNonDiagonalMove() {
+
+    }
+
     @Test
-    void testGetPosition2() {
-        String positionString = "a2";
-        try {
-            whiteBishop.setPosition(positionString);
-        } catch (IllegalPositionException e) {
-            e.printStackTrace();
-        }
-        Assertions.assertEquals(positionString, whiteBishop.getPosition());
+    void assertNoLegalMovesAtStartOfGame() {
+
     }
 }

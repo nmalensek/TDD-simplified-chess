@@ -17,10 +17,7 @@ class RookTest {
     }
 
     @Test
-    void testToString() {
-    }
+    void assertNoLegalMovesAtStartOfGame() {
 
-    @Test
-    void legalMoves() {
     }
 }

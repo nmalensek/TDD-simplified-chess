@@ -39,7 +39,7 @@ class KnightTest {
     }
 
     @Test
-    void testLegalMoves() {
+    void assertNoLegalMoves() {
         Assertions.assertTrue(whiteKnight.legalMoves().isEmpty());
     }
 }

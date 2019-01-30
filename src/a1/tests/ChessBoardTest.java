@@ -3,12 +3,14 @@ package a1.tests;
 import a1.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChessBoardTest {
-    ChessBoard chessBoard;
-    ChessPiece piece;
+    private ChessBoard chessBoard;
+    private ChessPiece piece;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -90,63 +92,15 @@ class ChessBoardTest {
 
     }
 
-    @Test
-    void testArgIsTwoCharsGet() {
-        String position = "abc";
+    @ParameterizedTest
+    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
+    void testIllegalPositions(String position) {
         Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
     }
 
-    @Test
-    void testFirstCharIsLetterGet() {
-        String position = "11";
-        Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
-    }
-
-    @Test
-    void testFirstCharIsInRangeGet() {
-        String position = "j1";
-        Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
-    }
-
-    @Test
-    void testSecondCharIsNumberGet() {
-        String position = "hh";
-        Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
-    }
-
-    @Test
-    void testSecondCharIsInRangeGet() {
-        String position = "h9";
-        Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
-    }
-
-    @Test
-    void testArgIsTwoCharsSet() {
-        String position = "abc";
-        Assertions.assertFalse(chessBoard.placePiece(piece, position));
-    }
-
-    @Test
-    void testFirstCharIsLetterSet() {
-        String position = "11";
-        Assertions.assertFalse(chessBoard.placePiece(piece, position));
-    }
-
-    @Test
-    void testFirstCharIsInRangeSet() {
-        String position = "j1";
-        Assertions.assertFalse(chessBoard.placePiece(piece, position));
-    }
-
-    @Test
-    void testSecondCharIsNumberSet() {
-        String position = "hh";
-        Assertions.assertFalse(chessBoard.placePiece(piece, position));
-    }
-
-    @Test
-    void testSecondCharIsInRangeSet() {
-        String position = "h9";
+    @ParameterizedTest
+    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
+    void testArgIsTwoCharsSet(String position) {
         Assertions.assertFalse(chessBoard.placePiece(piece, position));
     }
 
@@ -193,7 +147,8 @@ class ChessBoardTest {
         assertSame(piece.getColor(), ChessPiece.Color.WHITE);
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
     void assertException_WhenNoPieceToMove() {
         Assertions.assertThrows(IllegalMoveException.class, () -> chessBoard.move("b5", "b6"));
     }

@@ -16,33 +16,6 @@ public abstract class ChessPiece {
 
     private int ILLEGAL_COLUMN = -1;
 
-    private static final Map<Integer, Character> intCharMap;
-    static {
-        intCharMap = Map.ofEntries(
-                entry(0, 'a'),
-                entry(1, 'b'),
-                entry(2,'c'),
-                entry(3,'d'),
-                entry(4,'e'),
-                entry(5, 'f'),
-                entry(6,'g'),
-                entry(7,'h')
-        );
-    }
-    private static final Map<Character, Integer> charIntMap;
-    static {
-        charIntMap = Map.ofEntries(
-                entry('a', 0),
-                entry('b', 1),
-                entry('c', 2),
-                entry('d', 3),
-                entry('e', 4),
-                entry('f', 5),
-                entry('g', 6),
-                entry('h', 7)
-        );
-    }
-
     public ChessPiece(ChessBoard board, Color color) {
         this.board = board;
         this.color = color;
@@ -56,7 +29,7 @@ public abstract class ChessPiece {
     public String getPosition() {
         String position = "";
         //add one to return coordinate values
-        position += convertIntToChar(this.column) + 1;
+        position += String.valueOf(convertIntToChar(this.column));
         position += this.row + 1;
         return position;
     }
@@ -70,12 +43,6 @@ public abstract class ChessPiece {
         }
 
         //check row
-        try {
-            Integer.parseInt(String.valueOf(position.charAt(1)));
-        } catch (NumberFormatException e) {
-            throw new IllegalPositionException();
-        }
-
         if (Character.getNumericValue(position.charAt(1)) < 1 ||
                 Character.getNumericValue(position.charAt(1)) > 8) {
             throw new IllegalPositionException();
@@ -91,11 +58,11 @@ public abstract class ChessPiece {
 
 
     private char convertIntToChar(int number) {
-        return intCharMap.get(number);
+        return Character.toChars(number + 'a')[0];
     }
 
     private int convertCharToInt(char letter) {
-        if (!charIntMap.containsKey(letter)) { return ILLEGAL_COLUMN; }
-        return charIntMap.get(letter);
+        if (letter - 'a' > 7 || letter - 'a' < 0) { return ILLEGAL_COLUMN; }
+        return letter - 'a';
     }
 }
