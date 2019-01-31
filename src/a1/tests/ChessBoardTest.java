@@ -89,6 +89,13 @@ class ChessBoardTest {
 
     @Test
     void backRowsInitializedCorrectly() {
+        ChessPiece piece = null;
+        try {
+            piece = chessBoard.getPiece("a1");
+        } catch (IllegalPositionException e) {
+            fail();
+        }
+        Assertions.assertTrue(piece instanceof Rook);
 
     }
 
@@ -160,7 +167,12 @@ class ChessBoardTest {
 
     @Test
     void assertSuccessfulMove() {
-
+        chessBoard.initialize();
+        try {
+            chessBoard.move("c2", "c4");
+        } catch (IllegalMoveException e) {
+            fail();
+        }
     }
 
 }

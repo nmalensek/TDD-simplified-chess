@@ -57,7 +57,7 @@ public abstract class ChessPiece {
     abstract public ArrayList<String> legalMoves();
 
 
-    private char convertIntToChar(int number) {
+    protected char convertIntToChar(int number) {
         return Character.toChars(number + 'a')[0];
     }
 

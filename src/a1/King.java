@@ -19,18 +19,28 @@ public class King extends ChessPiece {
         moveList.clear();
 
         int[] potentialRows = {
-                this.row - 1, this.row, this.row + 1
+                this.row, this.row + 1, this.row + 2
         };
         int[] potentialColumns = {
                 this.column - 1, this.column, this.column + 1
         };
 
+        String potentialPosition;
         ChessPiece pieceInSpace;
         for (int rowIndex : potentialRows) {
             for (int columnIndex : potentialColumns) {
-
+                potentialPosition = String.valueOf(convertIntToChar(columnIndex)) + rowIndex;
+                try {
+                    pieceInSpace = board.getPiece(potentialPosition);
+                    if (pieceInSpace == null || pieceInSpace.color != this.color) {
+                        moveList.add(potentialPosition);
+                    }
+                } catch (IllegalPositionException e) {
+                    //ignore, don't add to legal moves.
+                }
             }
         }
-        return null;
+
+        return  moveList;
     }
 }

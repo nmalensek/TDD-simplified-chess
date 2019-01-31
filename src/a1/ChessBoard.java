@@ -1,8 +1,6 @@
 package a1;
 
-import java.util.Map;
-
-import static java.util.Map.entry;
+import java.util.ArrayList;
 
 public class ChessBoard {
     private ChessPiece[][] board;
@@ -26,33 +24,24 @@ public class ChessBoard {
 
             Rook leftRook = new Rook(this, color);
             placePiece(leftRook, 'a' + firstRowCoordinate);
-            updateBoard(leftRook, 'a' + firstRowCoordinate);
             Knight leftKnight = new Knight(this, color);
             placePiece(leftKnight, 'b' + firstRowCoordinate);
-            updateBoard(leftKnight, 'b' + firstRowCoordinate);
             Bishop leftBishop = new Bishop(this, color);
             placePiece(leftBishop, 'c' + firstRowCoordinate);
-            updateBoard(leftBishop, 'c' + firstRowCoordinate);
             Queen queen = new Queen(this, color);
             placePiece(queen, 'd' + firstRowCoordinate);
-            updateBoard(queen, 'd' + firstRowCoordinate);
             King king = new King(this, color);
             placePiece(king, 'e' + firstRowCoordinate);
-            updateBoard(king, 'e' + firstRowCoordinate);
             Bishop rightBishop = new Bishop(this, color);
             placePiece(rightBishop, 'f' + firstRowCoordinate);
-            updateBoard(rightBishop, 'f' + firstRowCoordinate);
             Knight rightKnight = new Knight(this, color);
             placePiece(rightKnight, 'g' + firstRowCoordinate);
-            updateBoard(rightKnight, 'g' + firstRowCoordinate);
             Rook rightRook = new Rook(this, color);
             placePiece(rightRook, 'h' + firstRowCoordinate);
-            updateBoard(rightRook, 'h' + firstRowCoordinate);
 
             for (int i = 0; i < board[0].length; i++) {
                 Pawn pawn = new Pawn(this, color);
                 placePiece(pawn, columnCharArray[i] + secondRowCoordinate);
-                updateBoard(pawn, columnCharArray[i] + secondRowCoordinate);
             }
 
         }
@@ -87,11 +76,15 @@ public class ChessBoard {
         } catch (IllegalPositionException e) {
             return false;
         }
+
+        //placement's fine, update the board.
+        board[Character.getNumericValue(position.charAt(1)) - 1][convertCharToInt(position.charAt(0))] = piece;
         return true;
     }
 
     public void move(String fromPosition, String toPosition) throws IllegalMoveException {
         ChessPiece pieceToMove;
+        ArrayList<String> pieceMoves;
         boolean successfulMove = false;
         try {
             pieceToMove = this.getPiece(fromPosition);
@@ -99,19 +92,19 @@ public class ChessBoard {
             throw new IllegalMoveException();
         }
 
-        if (pieceToMove == null || pieceToMove.legalMoves() == null) { throw new IllegalMoveException(); }
+        if (pieceToMove == null) { throw new IllegalMoveException(); }
 
-        if (pieceToMove.legalMoves().contains(toPosition)) {
+        pieceMoves = pieceToMove.legalMoves();
+
+        if (pieceMoves == null || pieceMoves.size() == 0) { throw new IllegalMoveException(); }
+
+        if (pieceMoves.contains(toPosition)) {
             successfulMove = this.placePiece(pieceToMove, toPosition);
         }
 
         if (!successfulMove) { throw new IllegalMoveException(); }
 
-        updateBoard(pieceToMove, toPosition);
-    }
-
-    private void updateBoard(ChessPiece piece, String coordinates) {
-        board[Character.getNumericValue(coordinates.charAt(1)) - 1][convertCharToInt(coordinates.charAt(0))] = piece;
+        board[Character.getNumericValue(fromPosition.charAt(1)) - 1][convertCharToInt(fromPosition.charAt(0))] = null;
     }
 
     private boolean inputCoordinatesValid(String coordinates) {

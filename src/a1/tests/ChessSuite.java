@@ -9,5 +9,7 @@ import org.junit.runner.RunWith;
 @SuiteDisplayName("Chess test suite")
 @SelectPackages("a1.tests")
 public class ChessSuite {
-
+//    public static void main(String[] args) {
+//
+//    }
 }
