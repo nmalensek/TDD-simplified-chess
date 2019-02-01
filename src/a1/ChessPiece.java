@@ -1,9 +1,6 @@
 package a1;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import static java.util.Map.entry;
 
 public abstract class ChessPiece {
 
