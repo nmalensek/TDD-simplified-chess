@@ -17,8 +17,8 @@ public class Pawn extends ChessPiece {
     public ArrayList<String> legalMoves() {
         ArrayList<String> moveList = new ArrayList<>();
         boolean shouldAdd = this.color == Color.WHITE;
-        int newIndexStartPosition = addOrSubtractRow(this.row, shouldAdd, 2); //5
-        int newIndexOtherwise = addOrSubtractRow(this.row, shouldAdd, 1); //4
+        int newIndexStartPosition = addOrSubtractRow(this.row, shouldAdd, 2);
+        int newIndexOtherwise = addOrSubtractRow(this.row, shouldAdd, 1);
         String newStartPositionString = String.valueOf(newIndexStartPosition + 1);
         String newOtherwisePositionString = String.valueOf(newIndexOtherwise + 1);
 

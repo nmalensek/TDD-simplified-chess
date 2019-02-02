@@ -32,10 +32,6 @@ public class BishopTest {
     void tearDown() {
     }
 
-    @Test
-    void testLegalMoves() {
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
     void testIllegalPositions(String position) {
