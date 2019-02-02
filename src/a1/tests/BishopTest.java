@@ -54,6 +54,11 @@ public class BishopTest {
     void assertNoLegalMovesAtStartOfGame(String newPosition) {
         board.initialize();
         Assertions.assertThrows(IllegalMoveException.class, () -> board.move("c1", newPosition));
+        try {
+            assertEquals(0, board.getPiece("c1").legalMoves().size());
+        } catch (IllegalPositionException e) {
+            fail();
+        }
     }
 
     @ParameterizedTest
