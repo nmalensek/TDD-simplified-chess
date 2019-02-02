@@ -83,6 +83,19 @@ class RookTest {
         } catch (IllegalMoveException | IllegalPositionException e) {
             fail();
         }
+    }
 
+    @Test
+    void assertBlockedByOtherPieces() {
+        board.placePiece(new Rook(board, ChessPiece.Color.BLACK), "d4");
+        board.placePiece(new Pawn(board, ChessPiece.Color.BLACK), "d2");
+        board.placePiece(new Pawn(board, ChessPiece.Color.BLACK), "b4");
+        board.placePiece(new Pawn(board, ChessPiece.Color.BLACK), "d6");
+        board.placePiece(new Pawn(board, ChessPiece.Color.BLACK), "f4");
+        try {
+            assertEquals(4, board.getPiece("d4").legalMoves().size());
+        } catch (IllegalPositionException e) {
+            fail();
+        }
     }
 }
