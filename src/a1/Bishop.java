@@ -18,15 +18,15 @@ public class Bishop extends ChessPiece {
     public ArrayList<String> legalMoves() {
         ArrayList<String> moveList = new ArrayList<>();
 
-        moveList.addAll(walkPath(true, true, true, this.row + 2, this.column + 1));
-        moveList.addAll(walkPath(true, true, false, this.row + 2, this.column - 1));
-        moveList.addAll(walkPath(false, false, true, this.row, this.column + 1));
-        moveList.addAll(walkPath(false, false, false, this.row, this.column - 1));
+        moveList.addAll(walkPath(true, true, this.row + 2, this.column + 1));
+        moveList.addAll(walkPath(true, false, this.row + 2, this.column - 1));
+        moveList.addAll(walkPath( false, true, this.row, this.column + 1));
+        moveList.addAll(walkPath( false, false, this.row, this.column - 1));
 
         return moveList;
     }
 
-    private ArrayList<String> walkPath(boolean goingForward, boolean addRow, boolean addColumn, int startRow, int startColumn) {
+    private ArrayList<String> walkPath(boolean addRow, boolean addColumn, int startRow, int startColumn) {
         ArrayList<String> moves = new ArrayList<>();
         int currentRow = startRow;
         int currentColumn = startColumn;
