@@ -170,7 +170,9 @@ class ChessBoardTest {
         chessBoard.initialize();
         try {
             chessBoard.move("c2", "c4");
-        } catch (IllegalMoveException e) {
+            assertNull(chessBoard.getPiece("c2"));
+            assertNotNull(chessBoard.getPiece("c4"));
+        } catch (IllegalMoveException | IllegalPositionException e) {
             fail();
         }
     }

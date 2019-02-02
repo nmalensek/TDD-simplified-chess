@@ -2,6 +2,7 @@ package a1.tests;
 
 import a1.ChessBoard;
 import a1.ChessPiece;
+import a1.IllegalMoveException;
 import a1.Queen;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -28,5 +29,11 @@ class QueenTest {
     @Test
     void assertNoLegalMoves() {
         Assertions.assertTrue(blackQueen.legalMoves().isEmpty());
+    }
+
+    @Test
+    void assertNoMovesAllowed() {
+        board.placePiece(blackQueen, "d6");
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("d6", "d5"));
     }
 }

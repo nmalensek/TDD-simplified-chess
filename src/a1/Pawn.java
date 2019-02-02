@@ -29,7 +29,7 @@ public class Pawn extends ChessPiece {
         if ((this.row == 1 && this.color == Color.WHITE) || (this.row == 6 && this.color == Color.BLACK)) {
             String tempColumn = String.valueOf(convertIntToChar(this.column));
 
-            if (spaceEmpty(tempColumn + newStartPositionString)) {
+            if (spaceEmpty(tempColumn + newStartPositionString) && spaceEmpty(tempColumn + newOtherwisePositionString)) {
                 moveList.add(tempColumn + newStartPositionString);
             }
         }

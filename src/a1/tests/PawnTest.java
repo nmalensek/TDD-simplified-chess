@@ -41,6 +41,13 @@ class PawnTest {
     }
 
     @Test
+    void assertCanOnlyMoveTwoSpacesIfNoPieceThere() {
+        board.placePiece(new Rook(board, ChessPiece.Color.BLACK), "g3");
+        assertThrows(IllegalMoveException.class, () -> board.move("g2", "g4"));
+        assertThrows(IllegalMoveException.class, () -> board.move("g2", "g4"));
+    }
+
+    @Test
     void assertCanMoveOneSpaceFromStartPosition() {
         try {
             board.move("c7","c6");

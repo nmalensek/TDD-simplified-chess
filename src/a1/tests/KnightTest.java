@@ -2,6 +2,7 @@ package a1.tests;
 
 import a1.ChessBoard;
 import a1.ChessPiece;
+import a1.IllegalMoveException;
 import a1.Knight;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,11 @@ import org.junit.runner.RunWith;
 class KnightTest {
     private Knight blackKnight;
     private Knight whiteKnight;
+    private ChessBoard board;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        ChessBoard board = new ChessBoard();
+        board = new ChessBoard();
         blackKnight = new Knight(board, ChessPiece.Color.BLACK);
         whiteKnight = new Knight(board, ChessPiece.Color.WHITE);
     }
@@ -41,5 +43,11 @@ class KnightTest {
     @Test
     void assertNoLegalMoves() {
         Assertions.assertTrue(whiteKnight.legalMoves().isEmpty());
+    }
+
+    @Test
+    void assertNoMovesAllowed() {
+        board.placePiece(blackKnight, "d6");
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("d6", "d5"));
     }
 }
