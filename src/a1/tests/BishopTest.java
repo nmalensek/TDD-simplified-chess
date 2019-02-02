@@ -1,9 +1,6 @@
 package a1.tests;
 
-import a1.Bishop;
-import a1.ChessBoard;
-import a1.ChessPiece;
-import a1.IllegalPositionException;
+import a1.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,30 +30,58 @@ public class BishopTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
-    void testIllegalPositions(String position) {
-        Assertions.assertThrows(IllegalPositionException.class, () -> whiteBishop.setPosition(position));
-    }
-
-    @Test
-    void assertSuccessfulSetPositionWithEmptyBoard() {
-        String positionString = "h8";
-        try {
-            whiteBishop.setPosition(positionString);
-        } catch (IllegalPositionException e) {
-            fail();
-        }
-        Assertions.assertEquals(positionString, whiteBishop.getPosition());
+    @ValueSource(strings = {"g4, e4"})
+    void assertExceptionOnNonDiagonalMove(String position) {
+        board.placePiece(whiteBishop, "f4");
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("f4", position));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"g4, e4"})
-    void assertExceptionOnNonDiagonalMove() {
+    @ValueSource(strings = {"h1","b1","a8", "f5"})
+    void assertCanMoveUnlimitedDiagonalSpaces(String newPosition) {
+        board.placePiece(whiteBishop, "e4");
+        try {
+            board.move("e4", newPosition);
+            assertTrue(board.getPiece(newPosition) instanceof Bishop);
+            assertNull(board.getPiece("e4"));
+        } catch (IllegalMoveException | IllegalPositionException e) {
+            fail();
+        }
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"d3","a4"})
+    void assertNoLegalMovesAtStartOfGame(String newPosition) {
+        board.initialize();
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("c1", newPosition));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"b1", "c6", "g6"})
+    void assertCannotJumpOtherPieces(String newPosition) {
+        board.placePiece(whiteBishop, "e4");
+        board.placePiece(new Pawn(board, ChessPiece.Color.WHITE), "c2");
+        board.placePiece(new Pawn(board, ChessPiece.Color.WHITE), "d5");
+        board.placePiece(new Pawn(board, ChessPiece.Color.WHITE), "f5");
+
+        Assertions.assertEquals(4, whiteBishop.legalMoves().size());
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("e4", newPosition));
     }
 
     @Test
-    void assertNoLegalMovesAtStartOfGame() {
+    void assertCanOnlyCapturePiecesOfOppositeColor() {
+        board.placePiece(whiteBishop, "e4");
+        board.placePiece(new Pawn(board, ChessPiece.Color.BLACK), "c2");
+        board.placePiece(new Pawn(board, ChessPiece.Color.WHITE), "b3");
 
+        try {
+            board.move("e4", "c2");
+            assertTrue(board.getPiece("c2") instanceof Bishop);
+            assertNull(board.getPiece("e4"));
+        } catch (IllegalMoveException | IllegalPositionException e) {
+            fail();
+        }
+
+        Assertions.assertThrows(IllegalMoveException.class, () -> board.move("c2", "b3"));
     }
 }
