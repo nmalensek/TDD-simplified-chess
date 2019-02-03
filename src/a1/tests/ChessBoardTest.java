@@ -92,10 +92,24 @@ class ChessBoardTest {
         ChessPiece piece = null;
         try {
             piece = chessBoard.getPiece("a1");
+            Assertions.assertTrue(piece instanceof Rook);
+            piece = chessBoard.getPiece("b1");
+            Assertions.assertTrue(piece instanceof Knight);
+            piece = chessBoard.getPiece("c1");
+            Assertions.assertTrue(piece instanceof Bishop);
+            piece = chessBoard.getPiece("d1");
+            Assertions.assertTrue(piece instanceof Queen);
+            piece = chessBoard.getPiece("e1");
+            Assertions.assertTrue(piece instanceof King);
+            piece = chessBoard.getPiece("f1");
+            Assertions.assertTrue(piece instanceof Bishop);
+            piece = chessBoard.getPiece("g1");
+            Assertions.assertTrue(piece instanceof Knight);
+            piece = chessBoard.getPiece("h1");
+            Assertions.assertTrue(piece instanceof Rook);
         } catch (IllegalPositionException e) {
             fail();
         }
-        Assertions.assertTrue(piece instanceof Rook);
 
     }
 
