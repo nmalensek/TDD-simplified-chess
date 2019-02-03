@@ -100,7 +100,7 @@ class ChessBoardTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9"})
+    @ValueSource(strings = {"abc", "11", "j1", "hh", "h9", "H7", "A1"})
     void testIllegalPositions(String position) {
         Assertions.assertThrows(IllegalPositionException.class, () -> chessBoard.getPiece(position));
     }

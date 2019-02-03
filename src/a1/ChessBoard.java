@@ -124,10 +124,6 @@ public class ChessBoard {
         return true;
     }
 
-    private char convertIntToChar(int number) {
-        return Character.toChars(number + 'a')[0];
-    }
-
     private int convertCharToInt(char letter) {
         if (letter - 'a' > 7 || letter - 'a' < 0) { return ILLEGAL_COLUMN; }
         return letter - 'a';
