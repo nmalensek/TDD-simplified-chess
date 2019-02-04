@@ -89,4 +89,22 @@ public class BishopTest {
 
         Assertions.assertThrows(IllegalMoveException.class, () -> board.move("c2", "b3"));
     }
+
+    @Test
+    void assertMoveUpdatesBoard() {
+        board.placePiece(blackBishop, "e4");
+        try {
+            board.move("e4", "a8");
+        } catch (IllegalMoveException e) {
+            fail();
+        }
+
+        assertEquals("a8", blackBishop.getPosition());
+        try {
+            assertTrue(board.getPiece("a8") instanceof Bishop);
+            assertNull(board.getPiece("e4"));
+        } catch (IllegalPositionException e) {
+            fail();
+        }
+    }
 }
