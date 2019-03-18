@@ -32,7 +32,7 @@ public class Rook extends ChessPiece {
         rowIndex = forward ? this.row + 2 : this.row;
         while (true) {
             try {
-                if (!checkForMove(null, rowIndex, this.column, moves)) {
+                if (!checkForMove(rowIndex, this.column, moves)) {
                     break;
                 }
             } catch (IllegalPositionException e) {
@@ -53,7 +53,7 @@ public class Rook extends ChessPiece {
         columnIndex = forward ? this.column + 1 : this.column - 1;
         while (true) {
             try {
-                if (!checkForMove(null, this.row + 1, columnIndex, moves)) {
+                if (!checkForMove(this.row + 1, columnIndex, moves)) {
                     break;
                 }
             } catch (IllegalPositionException e) {
@@ -68,8 +68,8 @@ public class Rook extends ChessPiece {
         }
     }
 
-    private boolean checkForMove(ChessPiece piece, int rowIndex, int columnIndex, ArrayList<String> moveList) throws IllegalPositionException {
-        piece = board.getPiece(String.valueOf(convertIntToChar(columnIndex)) + rowIndex);
+    private boolean checkForMove(int rowIndex, int columnIndex, ArrayList<String> moveList) throws IllegalPositionException {
+        ChessPiece piece = board.getPiece(String.valueOf(convertIntToChar(columnIndex)) + rowIndex);
         if (piece == null) {
             moveList.add(String.valueOf(convertIntToChar(columnIndex)) + rowIndex);
             return true;

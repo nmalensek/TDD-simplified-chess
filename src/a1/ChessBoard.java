@@ -43,7 +43,6 @@ public class ChessBoard {
                 Pawn pawn = new Pawn(this, color);
                 placePiece(pawn, columnCharArray[i] + secondRowCoordinate);
             }
-
         }
     }
 
@@ -116,12 +115,8 @@ public class ChessBoard {
         }
 
         //check row
-        if (Character.getNumericValue(coordinates.charAt(1)) < 1 ||
-                Character.getNumericValue(coordinates.charAt(1)) > 8) {
-            return false;
-        }
-
-        return true;
+        return Character.getNumericValue(coordinates.charAt(1)) >= 1 &&
+                Character.getNumericValue(coordinates.charAt(1)) <= 8;
     }
 
     private int convertCharToInt(char letter) {

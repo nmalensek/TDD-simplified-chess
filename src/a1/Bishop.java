@@ -20,8 +20,8 @@ public class Bishop extends ChessPiece {
 
         moveList.addAll(walkPath(true, true, this.row + 2, this.column + 1));
         moveList.addAll(walkPath(true, false, this.row + 2, this.column - 1));
-        moveList.addAll(walkPath( false, true, this.row, this.column + 1));
-        moveList.addAll(walkPath( false, false, this.row, this.column - 1));
+        moveList.addAll(walkPath(false,true, this.row,this.column + 1));
+        moveList.addAll(walkPath(false,false, this.row,this.column - 1));
 
         return moveList;
     }

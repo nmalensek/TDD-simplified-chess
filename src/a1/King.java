@@ -41,6 +41,6 @@ public class King extends ChessPiece {
             }
         }
 
-        return  moveList;
+        return moveList;
     }
 }
